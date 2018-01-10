@@ -2,7 +2,7 @@ import { ComponentRef, Inject, Injectable, LOCALE_ID, Optional, SkipSelf } from 
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-
+import { Observable } from 'rxjs/Observable';
 import { _applyAvailableLayouts, _applyConfigDefaults } from '../utils/keyboard.utils';
 import { ILocaleMap } from '../interfaces/locale-map.interface';
 import { IKeyboardLayout } from '../interfaces/keyboard-layout.interface';
@@ -12,6 +12,7 @@ import { MatKeyboardConfig } from '../configs/keyboard.config';
 import { MatKeyboardRef } from '../classes/keyboard-ref.class';
 import { MatKeyboardComponent } from '../components/keyboard/keyboard.component';
 import { MatKeyboardContainerComponent } from '../components/keyboard-container/keyboard-container.component';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 /**
  * Service to dispatch Material Design keyboard.
@@ -26,6 +27,8 @@ export class MatKeyboardService {
   private _keyboardRefAtThisLevel: MatKeyboardRef<MatKeyboardComponent> | null = null;
 
   private _availableLocales: ILocaleMap = {};
+
+  private inputVal = new BehaviorSubject<string>(null);
 
   /** Reference to the currently opened keyboard at *any* level. */
   private get _openedKeyboardRef(): MatKeyboardRef<MatKeyboardComponent> | null {
@@ -49,13 +52,20 @@ export class MatKeyboardService {
     return !!this._openedKeyboardRef;
   }
 
+  get keyVal() {
+    return this.inputVal.asObservable();
+  }
   constructor(private _overlay: Overlay,
-              private _live: LiveAnnouncer,
-              @Inject(LOCALE_ID) private _defaultLocale: string,
-              @Inject(MAT_KEYBOARD_LAYOUTS) private _layouts: IKeyboardLayouts,
-              @Optional() @SkipSelf() private _parentKeyboard: MatKeyboardService) {
+    private _live: LiveAnnouncer,
+    @Inject(LOCALE_ID) private _defaultLocale: string,
+    @Inject(MAT_KEYBOARD_LAYOUTS) private _layouts: IKeyboardLayouts,
+    @Optional() @SkipSelf() private _parentKeyboard: MatKeyboardService) {
     // prepare available layouts mapping
     this._availableLocales = _applyAvailableLayouts(_layouts);
+  }
+
+  setInputVal(val) {
+    this.inputVal.next(val);
   }
 
   /**

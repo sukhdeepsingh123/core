@@ -35,9 +35,10 @@ export class MatKeyboardDirective implements OnDestroy {
 
   @Output() shiftClick: EventEmitter<void> = new EventEmitter<void>();
 
+
   constructor(private _elementRef: ElementRef,
-              private _keyboardService: MatKeyboardService,
-              @Optional() @Self() private _control?: MatInput) {}
+    private _keyboardService: MatKeyboardService,
+    @Optional() @Self() private _control?: MatInput) { }
 
   ngOnDestroy() {
     this._hideKeyboard();
@@ -55,7 +56,10 @@ export class MatKeyboardDirective implements OnDestroy {
     this._keyboardRef.instance.setInputInstance(this._elementRef, this._control, this.type, this.inputLabel);
 
     // connect outputs
-    this._keyboardRef.instance.anyClick.subscribe( input => {this.ngModelChange.next(input);});
+    this._keyboardRef.instance.anyClick.subscribe(input => {
+      this._keyboardService.setInputVal(input);
+      this.ngModelChange.next(input);
+    });
     this._keyboardRef.instance.enterClick.subscribe(() => this.enterClick.next());
     this._keyboardRef.instance.capsClick.subscribe(() => this.capsClick.next());
     this._keyboardRef.instance.altClick.subscribe(() => this.altClick.next());
