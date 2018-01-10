@@ -55,6 +55,8 @@ export class MatKeyboardKeyComponent implements OnInit {
   @Input()
   control?: MatInput;
 
+  @Output() bksp = new EventEmitter<any>();
+
   @Output()
   anyClick = new EventEmitter<any>();
 
@@ -128,8 +130,8 @@ export class MatKeyboardKeyComponent implements OnInit {
   }
 
   // Inject dependencies
-  constructor(@Inject(MAT_KEYBOARD_DEADKEYS) private _deadkeys,
-              @Inject(MAT_KEYBOARD_ICONS) private _icons) {}
+  constructor( @Inject(MAT_KEYBOARD_DEADKEYS) private _deadkeys,
+    @Inject(MAT_KEYBOARD_ICONS) private _icons) { }
 
   ngOnInit() {
     // read the deadkeys
@@ -165,13 +167,14 @@ export class MatKeyboardKeyComponent implements OnInit {
         break;
 
       case KeyboardClassKey.Bksp:
-        if (caretEnd === caretStart && caretStart !== 0)  {
+        if (caretEnd === caretStart && caretStart !== 0) {
           this.inputValue = [value.slice(0, caretStart - 1), value.slice(caretStart)].join('');
           this._setCursorPosition(caretStart - 1);
         } else {
           this.inputValue = value;
           this._setCursorPosition(caretStart);
         }
+        this.bksp.next();
         break;
 
       case KeyboardClassKey.Caps:
@@ -236,7 +239,7 @@ export class MatKeyboardKeyComponent implements OnInit {
 
   // inspired by:
   // ref https://stackoverflow.com/a/4207763
-  private _getCursorPosition(): {start: number, end: number} {
+  private _getCursorPosition(): { start: number, end: number } {
     if (!this.input) {
       return;
     }
@@ -244,8 +247,8 @@ export class MatKeyboardKeyComponent implements OnInit {
     if ('selectionEnd' in this.input.nativeElement && 'selectionStart' in this.input.nativeElement) {
       // Standard-compliant browsers
       return {
-          start: this.input.nativeElement.selectionStart,
-          end: this.input.nativeElement.selectionEnd
+        start: this.input.nativeElement.selectionStart,
+        end: this.input.nativeElement.selectionEnd
       };
     } else if (window.document['selection']) {
       // IE
@@ -255,37 +258,37 @@ export class MatKeyboardKeyComponent implements OnInit {
       let start = 0;
       let end = 0;
       if (range && range.parentElement() === el) {
-          const len = el.value.length;
-          const normalizedValue = el.value.replace(/\r\n/g, '\n');
+        const len = el.value.length;
+        const normalizedValue = el.value.replace(/\r\n/g, '\n');
 
-          // Create a working TextRange that lives only in the input
-          const textInputRange = el.createTextRange();
-          textInputRange.moveToBookmark(range.getBookmark());
+        // Create a working TextRange that lives only in the input
+        const textInputRange = el.createTextRange();
+        textInputRange.moveToBookmark(range.getBookmark());
 
-          // Check if the start and end of the selection are at the very end
-          // of the input, since moveStart/moveEnd doesn't return what we want
-          // in those cases
-          const endRange = el.createTextRange();
-          endRange.collapse(false);
+        // Check if the start and end of the selection are at the very end
+        // of the input, since moveStart/moveEnd doesn't return what we want
+        // in those cases
+        const endRange = el.createTextRange();
+        endRange.collapse(false);
 
-          if (textInputRange.compareEndPoints('StartToEnd', endRange) > -1) {
-              start = end = len;
+        if (textInputRange.compareEndPoints('StartToEnd', endRange) > -1) {
+          start = end = len;
+        } else {
+          start = -textInputRange.moveStart('character', -len);
+          start += normalizedValue.slice(0, start).split('\n').length - 1;
+
+          if (textInputRange.compareEndPoints('EndToEnd', endRange) > -1) {
+            end = len;
           } else {
-              start = -textInputRange.moveStart('character', -len);
-              start += normalizedValue.slice(0, start).split('\n').length - 1;
-
-              if (textInputRange.compareEndPoints('EndToEnd', endRange) > -1) {
-                  end = len;
-              } else {
-                  end = -textInputRange.moveEnd('character', -len);
-                  end += normalizedValue.slice(0, end).split('\n').length - 1;
-              }
+            end = -textInputRange.moveEnd('character', -len);
+            end += normalizedValue.slice(0, end).split('\n').length - 1;
           }
+        }
       }
 
       return {
-          start: start,
-          end: end
+        start: start,
+        end: end
       };
     }
   }

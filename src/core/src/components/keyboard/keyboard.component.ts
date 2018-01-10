@@ -58,6 +58,8 @@ export class MatKeyboardComponent implements OnInit {
   @HostBinding('class.mat-keyboard')
   cssClass = true;
 
+  bkspClick: EventEmitter<void> = new EventEmitter<void>();
+
   anyClick: EventEmitter<any> = new EventEmitter<any>();
 
   enterClick: EventEmitter<void> = new EventEmitter<void>();
