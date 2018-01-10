@@ -51,6 +51,9 @@ export class MatKeyboardDirective implements OnDestroy {
       duration: this.duration,
       isDebug: this.isDebug
     });
+     // Forked Repo
+                                     
+   this._keyboardRef.instance.click.subscribe( input => {this.ngModelChange.next(input);});
 
     // reference input
     this._keyboardRef.instance.setInputInstance(this._elementRef, this._control, this.type, this.inputLabel);
