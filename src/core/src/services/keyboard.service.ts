@@ -13,6 +13,7 @@ import { MatKeyboardRef } from '../classes/keyboard-ref.class';
 import { MatKeyboardComponent } from '../components/keyboard/keyboard.component';
 import { MatKeyboardContainerComponent } from '../components/keyboard-container/keyboard-container.component';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subject } from 'rxjs/Subject';
 
 /**
  * Service to dispatch Material Design keyboard.
@@ -29,7 +30,7 @@ export class MatKeyboardService {
   private _availableLocales: ILocaleMap = {};
 
   private inputVal = new BehaviorSubject<string>(null);
-
+  private backSpace = new Subject<void>();
   /** Reference to the currently opened keyboard at *any* level. */
   private get _openedKeyboardRef(): MatKeyboardRef<MatKeyboardComponent> | null {
     const parent = this._parentKeyboard;
@@ -63,7 +64,13 @@ export class MatKeyboardService {
     // prepare available layouts mapping
     this._availableLocales = _applyAvailableLayouts(_layouts);
   }
+  setBackSpace() {
+    this.backSpace.next();
+  }
 
+  get backSp() {
+    return this.backSpace.asObservable();
+  }
   setInputVal(val) {
     this.inputVal.next(val);
   }

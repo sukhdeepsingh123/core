@@ -4,6 +4,7 @@ import { MatInput } from '@angular/material';
 import { MatKeyboardRef } from '../classes/keyboard-ref.class';
 import { MatKeyboardService } from '../services/keyboard.service';
 import { MatKeyboardComponent } from '../components/keyboard/keyboard.component';
+import { Subscription } from 'rxjs/Subscription';
 
 @Directive({
   selector: 'input[matKeyboard], textarea[matKeyboard]'
@@ -11,6 +12,8 @@ import { MatKeyboardComponent } from '../components/keyboard/keyboard.component'
 export class MatKeyboardDirective implements OnDestroy {
 
   private _keyboardRef: MatKeyboardRef<MatKeyboardComponent>;
+
+  subscription: Subscription;
 
   @Input() type: string;
 
@@ -24,7 +27,6 @@ export class MatKeyboardDirective implements OnDestroy {
 
   @Input() isDebug: boolean;
 
-
   @Output() ngModelChange: EventEmitter<any> = new EventEmitter<any>();
 
   @Output() enterClick: EventEmitter<void> = new EventEmitter<void>();
@@ -35,6 +37,8 @@ export class MatKeyboardDirective implements OnDestroy {
 
   @Output() shiftClick: EventEmitter<void> = new EventEmitter<void>();
 
+  @Output() backClick: EventEmitter<void> = new EventEmitter<void>();
+
 
   constructor(private _elementRef: ElementRef,
     private _keyboardService: MatKeyboardService,
@@ -42,6 +46,9 @@ export class MatKeyboardDirective implements OnDestroy {
 
   ngOnDestroy() {
     this._hideKeyboard();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   @HostListener('focus', ['$event'])
@@ -64,12 +71,16 @@ export class MatKeyboardDirective implements OnDestroy {
     this._keyboardRef.instance.capsClick.subscribe(() => this.capsClick.next());
     this._keyboardRef.instance.altClick.subscribe(() => this.altClick.next());
     this._keyboardRef.instance.shiftClick.subscribe(() => this.shiftClick.next());
+    this.subscription = this._keyboardService.backSp.subscribe(() => this.backClick.next());
   }
 
   @HostListener('blur', ['$event'])
   private _hideKeyboard() {
     if (this._keyboardRef) {
       this._keyboardRef.dismiss();
+      if (this.subscription) {
+        this.subscription.unsubscribe();
+      }
     }
   }
 
