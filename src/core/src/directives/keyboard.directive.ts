@@ -37,7 +37,7 @@ export class MatKeyboardDirective implements OnDestroy {
 
   @Output() shiftClick: EventEmitter<void> = new EventEmitter<void>();
 
-  @Output() backClick: EventEmitter<void> = new EventEmitter<void>();
+  @Output() backClick: EventEmitter<string> = new EventEmitter<string>();
 
 
   constructor(private _elementRef: ElementRef,
@@ -71,7 +71,7 @@ export class MatKeyboardDirective implements OnDestroy {
     this._keyboardRef.instance.capsClick.subscribe(() => this.capsClick.next());
     this._keyboardRef.instance.altClick.subscribe(() => this.altClick.next());
     this._keyboardRef.instance.shiftClick.subscribe(() => this.shiftClick.next());
-    this.subscription = this._keyboardService.backSp.subscribe(() => this.backClick.next());
+    this.subscription = this._keyboardService.backSp.subscribe(() => this.backClick.next('BackSpace'));
   }
 
   @HostListener('blur', ['$event'])

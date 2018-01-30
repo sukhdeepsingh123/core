@@ -1,10 +1,11 @@
-import { Component, Inject, LOCALE_ID, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, LOCALE_ID, OnDestroy, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 import { IKeyboardLayout, MAT_KEYBOARD_LAYOUTS, MatKeyboardComponent, MatKeyboardRef, MatKeyboardService } from '@ngx-material-keyboard/core';
 
 import { Subscription } from 'rxjs/Subscription';
+
 
 @Component({
   selector: 'mat-keyboard-demo-root',
@@ -37,10 +38,11 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   constructor(private _keyboardService: MatKeyboardService,
-              @Inject(LOCALE_ID) public locale,
-              @Inject(MAT_KEYBOARD_LAYOUTS) private _layouts) {}
+    @Inject(LOCALE_ID) public locale,
+    @Inject(MAT_KEYBOARD_LAYOUTS) private _layouts) { }
 
   ngOnInit() {
+    this._keyboardService.open('numeric');
     this.defaultLocale = ` ${this.locale}`.slice(1);
     this.layouts = Object
       .keys(this._layouts)
@@ -90,4 +92,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this._keyboardRef.instance.darkTheme = this.darkTheme;
   }
 
+  hitMe(event) {
+    console.log(event);
+  }
 }
