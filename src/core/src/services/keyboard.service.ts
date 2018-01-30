@@ -30,7 +30,11 @@ export class MatKeyboardService {
   private _availableLocales: ILocaleMap = {};
 
   private inputVal = new BehaviorSubject<string>(null);
+
+  private anyKeyVal = new Subject<string>();
+
   private backSpace = new Subject<void>();
+
   /** Reference to the currently opened keyboard at *any* level. */
   private get _openedKeyboardRef(): MatKeyboardRef<MatKeyboardComponent> | null {
     const parent = this._parentKeyboard;
@@ -56,6 +60,12 @@ export class MatKeyboardService {
   get keyVal() {
     return this.inputVal.asObservable();
   }
+
+  get getAnyKey() {
+    return this.anyKeyVal.asObservable();
+  }
+
+
   constructor(private _overlay: Overlay,
     private _live: LiveAnnouncer,
     @Inject(LOCALE_ID) private _defaultLocale: string,
@@ -64,6 +74,7 @@ export class MatKeyboardService {
     // prepare available layouts mapping
     this._availableLocales = _applyAvailableLayouts(_layouts);
   }
+
   setBackSpace() {
     this.backSpace.next();
   }
@@ -71,6 +82,12 @@ export class MatKeyboardService {
   get backSp() {
     return this.backSpace.asObservable();
   }
+
+  setAnyKey(val) {
+    this.anyKeyVal.next('val');
+  }
+
+
   setInputVal(val) {
     this.inputVal.next(val);
   }

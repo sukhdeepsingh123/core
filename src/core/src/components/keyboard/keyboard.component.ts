@@ -70,6 +70,8 @@ export class MatKeyboardComponent implements OnInit {
 
   shiftClick: EventEmitter<void> = new EventEmitter<void>();
 
+  anyKey: EventEmitter<string> = new EventEmitter<string>();
+
   // returns an observable of the input instance
   get inputInstance(): Observable<ElementRef | null> {
     return this._inputInstance$.asObservable();
@@ -96,8 +98,8 @@ export class MatKeyboardComponent implements OnInit {
   }
 
   // inject dependencies
-  constructor(@Inject(LOCALE_ID) private _locale,
-              private _keyboardService: MatKeyboardService) {}
+  constructor( @Inject(LOCALE_ID) private _locale,
+    private _keyboardService: MatKeyboardService) { }
 
   setInputInstance(inputInstance: ElementRef, control: MatInput, type?: string, inputLabel?: string) {
     this.type = type;
@@ -204,7 +206,9 @@ export class MatKeyboardComponent implements OnInit {
     this.inputModel = input;
     this.anyClick.next(input);
   }
-
+  keyBind(event) {
+    this.anyKey.next(event);
+  }
   onEnterClick() {
     // notify subscribers
     this.enterClick.next();

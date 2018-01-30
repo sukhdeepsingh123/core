@@ -8,6 +8,7 @@ import { MAT_KEYBOARD_ICONS } from '../../configs/keyboard-icons.config';
 import { KeyboardClassKey } from '../../enums/keyboard-class-key.enum';
 import { MatKeyboardService } from '../../services/keyboard.service';
 
+
 export const VALUE_NEWLINE = '\n\r';
 export const VALUE_SPACE = ' ';
 export const VALUE_TAB = '\t';
@@ -28,6 +29,7 @@ export class MatKeyboardKeyComponent implements OnInit {
   active$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   pressed$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
 
   @Input()
   key: string | KeyboardClassKey;
@@ -72,6 +74,9 @@ export class MatKeyboardKeyComponent implements OnInit {
 
   @Output()
   shiftClick = new EventEmitter<void>();
+
+  @Output()
+  keyBind = new EventEmitter<string>();
 
   get lowerKey(): string {
     return `${this.key}`.toLowerCase();
@@ -217,6 +222,7 @@ export class MatKeyboardKeyComponent implements OnInit {
       this.inputValue = [value.slice(0, caretStart), char, value.slice(caretStart)].join('');
       this._setCursorPosition(caretStart + 1);
     }
+    this.keyBind.emit(this.key);
     this.anyClick.emit(this.inputValue);
   }
 

@@ -42,7 +42,14 @@ export class AppComponent implements OnInit, OnDestroy {
     @Inject(MAT_KEYBOARD_LAYOUTS) private _layouts) { }
 
   ngOnInit() {
-    this._keyboardService.open('numeric');
+    // this._keyboardRef = this._keyboardService.open('en-US', {
+    //   darkTheme: this.darkTheme,
+    // });
+    this._keyboardRef = this._keyboardService.open('en-US', {
+      darkTheme: this.darkTheme,
+      duration: this.duration,
+      isDebug: this.isDebug
+    });
     this.defaultLocale = ` ${this.locale}`.slice(1);
     this.layouts = Object
       .keys(this._layouts)
@@ -67,6 +74,7 @@ export class AppComponent implements OnInit, OnDestroy {
       duration: this.duration,
       isDebug: this.isDebug
     });
+    // this._keyboardService.getAnyKey.subscribe((x) => { console.log('+++', x); });
     this._enterSubscription = this._keyboardRef.instance.enterClick.subscribe(() => {
       this.submitForm();
     });
@@ -93,6 +101,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   hitMe(event) {
-    console.log(event);
+    // console.log(event);
   }
 }
