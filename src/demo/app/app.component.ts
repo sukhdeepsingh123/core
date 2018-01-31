@@ -45,7 +45,7 @@ export class AppComponent implements OnInit, OnDestroy {
     // this._keyboardRef = this._keyboardService.open('en-US', {
     //   darkTheme: this.darkTheme,
     // });
-    this._keyboardRef = this._keyboardService.open('numeric', {
+    this._keyboardRef = this._keyboardService.open('en', {
       darkTheme: this.darkTheme,
       duration: this.duration,
       isDebug: this.isDebug
