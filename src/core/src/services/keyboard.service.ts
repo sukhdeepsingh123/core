@@ -144,6 +144,7 @@ export class MatKeyboardService {
 
     // If a dismiss timeout is provided, set up dismiss based on after the keyboard is opened.
     // if (configs.duration > 0) {
+
     //   keyboardRef.afterOpened().subscribe(() => {
     //     setTimeout(() => keyboardRef.dismiss(), configs.duration);
     //   });

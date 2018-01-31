@@ -1,2 +1,24 @@
 @import '~reset.scss/reset';
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
+.mat-button, .mat-fab, .mat-icon-button, .mat-mini-fab, .mat-raised-button {
+    min-width: 6.4vw !important;
+    line-height: 8.4vh !important;
+    padding: 0 2.39vh !important;
+    border-radius: 0.2vw !important;
+    font-size: 3.2vh !important;
+  }
+  .mat-keyboard-wrapper{
+    width:auto !important;
+  }
+  mat-keyboard-container{
+    box-shadow: none !important;
+  }
+  .mat-keyboard-wrapper{
+    padding: 0 !important;
+    background-color: transparent !important;
+  }
+  .mat-keyboard-layout {
+    width: auto !important;
+    margin: 0 auto;
+    padding: 1.75vw;
+  }

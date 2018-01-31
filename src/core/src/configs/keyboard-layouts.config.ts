@@ -157,6 +157,31 @@ const keyboardLayouts: IKeyboardLayouts = {
     ],
     'lang': ['ar']
   },
+  'Numeric': {
+    'name': 'Awesome layout',
+    'keys': [
+      [
+        ['1', '!'],
+        ['2', '@'],
+        ['3', '#']
+      ],
+      [
+        ['4', '!'],
+        ['5', '@'],
+        ['6', '#']
+      ],
+      [
+        ['7', '!'],
+        ['8', '@'],
+        ['9', '#']
+      ],
+      [
+        ['0', '!'],
+        ['Backspace', '@'],
+      ],
+    ],
+    'lang': ['numeric']
+  },
   'Arabic': {
     'name': 'Arabic',
     'keys': [

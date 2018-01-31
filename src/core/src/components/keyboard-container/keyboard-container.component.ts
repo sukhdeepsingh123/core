@@ -10,7 +10,7 @@ import 'rxjs/add/operator/first';
 import { MatKeyboardConfig } from '../../configs/keyboard.config';
 import { KeyboardAnimationState } from '../../enums/keyboard-animation-state.enum';
 import { KeyboardAnimationTransition } from '../../enums/keyboard-animation-transition.enum';
-
+import { MatKeyboardService } from '../../services/keyboard.service';
 // TODO: we can't use constants from animation.ts here because you can't use
 // a text interpolation in anything that is analyzed statically with ngc (for AoT compile).
 export const SHOW_ANIMATION = `${AnimationDurations.ENTERING} ${AnimationCurves.DECELERATION_CURVE}`;

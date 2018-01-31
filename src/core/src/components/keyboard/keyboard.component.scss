@@ -1,13 +1,13 @@
 @import '~@angular/material/theming';
 
 $mat-typography-config: mat-typography-config();
-$mat-keyboard-button-distance: 8px !default;
-$mat-keyboard-padding: 14px 24px !default;
+$mat-keyboard-button-distance: 0.58vw !default;
+$mat-keyboard-padding: 1.75vw !default;
 
 .mat-keyboard {
   &-wrapper {
     background-color: mat-color($mat-grey, 100);
-    border-radius: 2px;
+    border-radius: 0.5vw;
     display: flex;
     font: {
       family: mat-font-family($mat-typography-config);
@@ -15,7 +15,7 @@ $mat-keyboard-padding: 14px 24px !default;
     }
     justify-content: space-between;
     //color: white;
-    line-height: 20px;
+    line-height: 2.9vh;
     padding: $mat-keyboard-padding;
 
     /deep/ .mat-form-field-underline {
@@ -105,3 +105,4 @@ $mat-keyboard-padding: 14px 24px !default;
     }
   }
 }
+
