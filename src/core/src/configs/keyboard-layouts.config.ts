@@ -6093,6 +6093,7 @@ const keyboardLayouts: IKeyboardLayouts = {
         ['8', '*'],
         ['9', '('],
         ['0', ')'],
+        ['_', '-']
       ],
       [
         ['q', 'Q'],
@@ -6128,8 +6129,8 @@ const keyboardLayouts: IKeyboardLayouts = {
         ['b', 'B'],
         ['n', 'N'],
         ['m', 'M'],
-        ['.', ''],
-        ['@', '']
+        ['.', ','],
+        ['@', '/']
       ],
       [
         [KeyboardClassKey.Space, KeyboardClassKey.Space, KeyboardClassKey.Space, KeyboardClassKey.Space]
